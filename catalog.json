@@ -1,0 +1,30 @@
+[ {
+  "id": "50f64495-80f6-42a2-8be4-e4a597416a9e",
+  "name": "shared-volume",
+  "description": "Share volume served from NetApp storage box. Protocol used is SMB",
+  "bindable": true,
+  "bindings_retrievable": false,
+  "instances_retrievable": false,
+  "tags": [ "smb", "storage" ],
+  "requires": [
+    "volume_mount"
+  ],
+  "plan_updateable": false,
+  "plans": [
+    {
+      "id": "e26e8478-9f7c-4974-8e70-5453fc2a1dd6",
+      "name": "standard",
+      "description": "Standard shared volume",
+      "free": true,
+      "metadata": {
+        "displayName": "Standard shared volume"
+      }
+    }
+  ],
+  "metadata": {
+    "displayName": "Shared Volume",
+    "documentationUrl": "",
+    "longDescription": "Share volume served from NetApp storage box. Protocol used is SMB",
+    "providerDisplayName": "NetApp"
+  }
+} ]

@@ -1,0 +1,5 @@
+vserver cifs create -vserver svm0 -cifs-server lab01 -workgroup lab
+vserver export-policy rule create -vserver svm0 -policyname default -ruleindex 1 -protocol cifs -clientmatch 0.0.0.0/0 -rorule any -rwrule any -superuser any
+network interface create -vserver svm0 -lif datalif1 -role data -data-protocol cifs -home-node lab-01 -home-port e0c -address 172.16.3.102 -netmask 255.255.255.0 -firewall-policy data -auto-revert true
+
+/api/protocols/cifs/shares/029389e8-0fca-11ec-b883-000c299ea52f/c41cab85_d688_4dc5_bc5e_5264262207ab/acls { "user_or_group": "OTqF0mSng", "type": "windows", "permission": "full_control" }
