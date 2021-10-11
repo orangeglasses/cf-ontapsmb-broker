@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"code.cloudfoundry.org/lager"
-	"github.com/pivotal-cf/brokerapi"
+	"github.com/pivotal-cf/brokerapi/v7"
 )
 
 func main() {
@@ -36,7 +36,7 @@ func main() {
 		services[i].Metadata.DocumentationUrl = config.DocsURL
 	}
 
-	logger := lager.NewLogger("cf-ontapnfs-broker")
+	logger := lager.NewLogger("cf-ontapsmb-broker")
 	logger.RegisterSink(lager.NewWriterSink(os.Stdout, logLevels[config.LogLevel]))
 
 	ontapClient, _ := NewOntapClient(config.OntapUser, config.OntapPassword, config.TrustedSSHKey, config.OntapURL, true)
