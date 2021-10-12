@@ -269,7 +269,7 @@ func (o *OntapClient) StartSSHSession() (*ssh.Client, *ssh.Session, error) {
 	return connection, session, nil
 }
 
-func (o *OntapClient) CreateCifsUser(username, password, fullName, svmName string) error {
+func (o *OntapClient) CreateCifsUser(username, password, fullName string) error {
 	connection, session, err := o.StartSSHSession()
 	if err != nil {
 		return err
@@ -286,7 +286,7 @@ func (o *OntapClient) CreateCifsUser(username, password, fullName, svmName strin
 	session.Stdout = &b
 	session.Stderr = &b
 
-	cmd := fmt.Sprintf("vserver cifs users-and-groups local-user create -vserver %s -user-name %s -full-name %s", svmName, username, fullName)
+	cmd := fmt.Sprintf("vserver cifs users-and-groups local-user create -user-name %s -full-name %s", username, fullName)
 	session.Start(cmd)
 	time.Sleep(250 * time.Millisecond)
 	fmt.Fprintf(stdin, "%s\n", password)
@@ -309,7 +309,7 @@ func (o *OntapClient) GetCifsUserByFullname(svmName, fullName string) (string, e
 	defer connection.Close()
 	defer session.Close()
 
-	cmd := fmt.Sprintf("vserver cifs users-and-groups local-user show -fields user-name -vserver %s -full-name %s", svmName, fullName)
+	cmd := fmt.Sprintf("vserver cifs users-and-groups local-user show -fields user-name -full-name %s", fullName)
 	out, err := session.CombinedOutput(cmd)
 	if err != nil {
 		return "", err
