@@ -112,17 +112,17 @@ func (b *broker) Bind(context context.Context, instanceID, bindingID string, det
 	password, _ := shortid.Generate()
 	err := b.ontapClient.CreateCifsUser(username, password, bindingID, b.env.OntapSvmName)
 	if err != nil {
-		return domain.Binding{}, err
+		return domain.Binding{}, fmt.Errorf("CreateCifsUser failed: %s", err)
 	}
 
 	svmId, err := b.ontapClient.GetSvmIdByName(b.env.OntapSvmName)
 	if err != nil {
-		return domain.Binding{}, err
+		return domain.Binding{}, fmt.Errorf("GetSvmIdByName failed: %s", err)
 	}
 
 	err = b.ontapClient.AssignCifsUser(username, svmId, volumeName)
 	if err != nil {
-		return domain.Binding{}, err
+		return domain.Binding{}, fmt.Errorf("AssignCifsUser failed: %s", err)
 	}
 
 	var bindOpts map[string]interface{}

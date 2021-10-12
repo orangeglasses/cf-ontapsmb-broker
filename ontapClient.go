@@ -271,6 +271,9 @@ func (o *OntapClient) StartSSHSession() (*ssh.Client, *ssh.Session, error) {
 
 func (o *OntapClient) CreateCifsUser(username, password, fullName, svmName string) error {
 	connection, session, err := o.StartSSHSession()
+	if err != nil {
+		return err
+	}
 	defer connection.Close()
 	defer session.Close()
 
