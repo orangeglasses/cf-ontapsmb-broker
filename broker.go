@@ -110,7 +110,7 @@ func (b *broker) Bind(context context.Context, instanceID, bindingID string, det
 
 	username, _ := shortid.Generate()
 	password, _ := shortid.Generate()
-	err := b.ontapClient.CreateCifsUser(username, password, bindingID, b.env.OntapSvmName)
+	err := b.ontapClient.CreateCifsUser(username, password, bindingID)
 	if err != nil {
 		return domain.Binding{}, fmt.Errorf("CreateCifsUser failed: %s", err)
 	}
