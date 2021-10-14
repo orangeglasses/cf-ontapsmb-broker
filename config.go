@@ -17,8 +17,9 @@ type brokerConfig struct {
 	OntapSvmName       string `envconfig:"ontap_svm_name" required:"true"`
 	CifsHostname       string `envconfig:"cifs_hostname" required:"true"`
 	TrustedSSHKey      string `envconfig:"trusted_ssh_key" default:""`
-	MaxVolumeSize      string `envonconfig:"max_volume_size" default:"2Ti"`
+	MaxVolumeSize      string `envconfig:"max_volume_size" default:"2Ti"`
 	MaxVolumeSizeBytes int64
+	VolumeNamePrefix   string `envconfig:"volume_name_prefix" default:"A"` //We use the service UUID as the volume name but ontapp volumes cannot start with a number so we have to prefix the uuid
 	LogLevel           string `envconfig:"log_level" default:"INFO"`
 	Port               string `envconfig:"port" default:"3000"`
 	DocsURL            string `envconfig:"docsurl" default:"default"`

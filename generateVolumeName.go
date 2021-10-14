@@ -1,7 +1,10 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
-func generateVolumeName(id string) string {
-	return strings.ReplaceAll(id, "-", "_")
+func generateVolumeName(prefix, id string) string {
+	return fmt.Sprintf("%s%s", prefix, strings.ReplaceAll(id, "-", "_"))
 }

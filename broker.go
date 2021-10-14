@@ -33,7 +33,7 @@ func (b *broker) Provision(context context.Context, instanceID string, details d
 	}
 
 	//generate the name
-	volumeName := generateVolumeName(instanceID)
+	volumeName := generateVolumeName(b.env.VolumeNamePrefix, instanceID)
 
 	//get params (sieze only for now)
 	if details.RawParameters == nil || len(details.RawParameters) == 0 {
@@ -77,7 +77,7 @@ func (b *broker) Deprovision(context context.Context, instanceID string, details
 		return domain.DeprovisionServiceSpec{}, apiresponses.ErrAsyncRequired
 	}
 
-	name := generateVolumeName(instanceID)
+	name := generateVolumeName(b.env.VolumeNamePrefix, instanceID)
 	id, err := b.ontapClient.GetVolumeIDByName(name)
 	if err != nil {
 		return domain.DeprovisionServiceSpec{}, fmt.Errorf("error lookup volume with name %s", name)
@@ -106,7 +106,7 @@ func (b *broker) hash(mountOpts map[string]interface{}) (string, error) {
 }
 
 func (b *broker) Bind(context context.Context, instanceID, bindingID string, details domain.BindDetails, asyncAllowed bool) (domain.Binding, error) {
-	volumeName := generateVolumeName(instanceID)
+	volumeName := generateVolumeName(b.env.VolumeNamePrefix, instanceID)
 
 	username, _ := shortid.Generate()
 	password, _ := shortid.Generate()
