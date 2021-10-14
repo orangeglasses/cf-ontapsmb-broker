@@ -324,7 +324,7 @@ func (o *OntapClient) GetCifsUserByFullname(svmName, fullName string) (string, e
 	return username, nil
 }
 
-func (o *OntapClient) DeleteCifsUser(svmName, username string) error {
+func (o *OntapClient) DeleteCifsUser(username string) error {
 	connection, session, err := o.StartSSHSession()
 	if err != nil {
 		return err
@@ -332,7 +332,7 @@ func (o *OntapClient) DeleteCifsUser(svmName, username string) error {
 	defer connection.Close()
 	defer session.Close()
 
-	cmd := fmt.Sprintf("vserver cifs users-and-groups local-user delete -vserver %s -user-name %s", svmName, username)
+	cmd := fmt.Sprintf("vserver cifs users-and-groups local-user delete -user-name %s", username)
 	err = session.Run(cmd)
 	if err != nil {
 		return err
