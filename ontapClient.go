@@ -177,10 +177,10 @@ func (o *OntapClient) CreateCifsVolume(name, svmName string, size int64) (string
 	v.Template.Name = "nas"
 	v.Nas.NfsAccess = []interface{}{}
 	v.Nas.CifsAccess = []CifsAccess{}
-	/*v.Nas.CifsAccess = append(v.Nas.CifsAccess, CifsAccess{
+	v.Nas.CifsAccess = append(v.Nas.CifsAccess, CifsAccess{
 		Access:      "No_access",
-		UserOrGroup: "Everyone",
-	})*/
+		UserOrGroup: "BUILTIN\\Guests",
+	})
 	v.Nas.ProtectionType.LocalPolicy = "none"
 	v.Nas.ProtectionType.RemoteRpo = "none"
 	v.Nas.ApplicationComponents = append(v.Nas.ApplicationComponents, ApplicationComponents{
