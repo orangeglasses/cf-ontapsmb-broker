@@ -166,12 +166,12 @@ func (b *broker) GetBinding(ctx context.Context, instanceID, bindingID string) (
 func (b *broker) Unbind(context context.Context, instanceID, bindingID string, details domain.UnbindDetails, asyncAllowed bool) (domain.UnbindSpec, error) {
 	user, err := b.ontapClient.GetCifsUserByFullname(b.env.OntapSvmName, bindingID)
 	if err != nil {
-		return domain.UnbindSpec{}, err
+		return domain.UnbindSpec{}, fmt.Errorf("GitCifsUserByFullname failed: %s", err)
 	}
 
 	err = b.ontapClient.DeleteCifsUser(b.env.OntapSvmName, user)
 	if err != nil {
-		return domain.UnbindSpec{}, err
+		return domain.UnbindSpec{}, fmt.Errorf("DeleteCifsUser failed: %s", err)
 	}
 
 	return domain.UnbindSpec{}, nil
