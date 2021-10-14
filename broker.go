@@ -141,6 +141,7 @@ func (b *broker) Bind(context context.Context, instanceID, bindingID string, det
 	mountConfig["version"] = "3.0"
 	mountConfig["username"] = username
 	mountConfig["password"] = password
+	mountConfig["sec"] = "ntlmssp"
 	mountConfig["source"] = fmt.Sprintf("//%s/%s", b.env.CifsHostname, volumeName)
 
 	return domain.Binding{
