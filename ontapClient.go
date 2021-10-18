@@ -349,10 +349,27 @@ func (o *OntapClient) AssignCifsUser(username, svmId, shareName string) error {
 	}
 
 	bdy, _ := json.Marshal(acl)
-	_, err := o.DoApiRequest(http.MethodPost, fmt.Sprintf("/protocols/cifs/shares/%s/%s/acls", svmId, shareName), bdy, 201)
-	if err != nil {
-		return err
+
+	tries := 2
+	var err error
+
+	for tries > 0 {
+		err = nil
+		_, err = o.DoApiRequest(http.MethodPost, fmt.Sprintf("/protocols/cifs/shares/%s/%s/acls", svmId, shareName), bdy, 201)
+		if err == nil {
+			return nil
+		}
+
+		if ace, ok := err.(OntapError); ok {
+			if ace.body.Error.Code != "4" {
+				return err
+			}
+			tries--
+			time.Sleep(3 * time.Second)
+		} else {
+			return err
+		}
 	}
 
-	return nil
+	return err
 }
