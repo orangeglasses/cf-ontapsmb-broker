@@ -350,7 +350,7 @@ func (o *OntapClient) AssignCifsUser(username, svmId, shareName string) error {
 
 	bdy, _ := json.Marshal(acl)
 
-	tries := 2
+	tries := 3
 	var err error
 
 	for tries > 0 {
@@ -365,7 +365,7 @@ func (o *OntapClient) AssignCifsUser(username, svmId, shareName string) error {
 				return err
 			}
 			tries--
-			time.Sleep(3 * time.Second)
+			time.Sleep(5 * time.Second)
 		} else {
 			return err
 		}
