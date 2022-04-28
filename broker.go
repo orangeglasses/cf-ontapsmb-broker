@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/pivotal-cf/brokerapi/v7"
 	"github.com/pivotal-cf/brokerapi/v7/domain"
@@ -166,7 +167,11 @@ func (b *broker) GetBinding(ctx context.Context, instanceID, bindingID string) (
 func (b *broker) Unbind(context context.Context, instanceID, bindingID string, details domain.UnbindDetails, asyncAllowed bool) (domain.UnbindSpec, error) {
 	user, err := b.ontapClient.GetCifsUserByFullname(b.env.OntapSvmName, bindingID)
 	if err != nil {
-		return domain.UnbindSpec{}, fmt.Errorf("GitCifsUserByFullname failed: %s", err)
+		if strings.Contains(err.Error(), "status 255") {
+			return domain.UnbindSpec{}, nil //If user not found unbind was done before but CF didn't register it.
+		}
+
+		return domain.UnbindSpec{}, fmt.Errorf("GetCifsUserByFullname failed: %s", err)
 	}
 
 	err = b.ontapClient.DeleteCifsUser(user)
